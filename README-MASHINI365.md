@@ -1,92 +1,76 @@
-# Mashini365 — CloudCart landing-page files
+# Mashini365 — complete GitHub upload package
 
-This package adapts the supplied Mashini365 Version 3 HTML for the same hosted-embed pattern used for the earlier CloudCart landing page.
+This package includes the uploaded landing-page assets plus the Nitrogen application and the real CloudCart-generated workflow for storefront **199**. The storefront identifier and deployment protocol come from this repository's `nova/add-deployment-workflow` branch, not from another store.
 
-**This is an addition to an existing CloudCart Nitrogen storefront repository, not a replacement Nitrogen application or a configured Nova deployment.** The storefront repository and its deployment URL were not supplied. Keep that repository's existing package.json, lockfile, server, routes, environment configuration, and `.github/workflows/nova-deploy.yml`. Do not copy the deployment ID or secrets from the Kolichkite project.
+## Upload
 
-## Files to add to the repository
+1. Extract the ZIP on your computer.
+2. Open `sdimitrov-marketiseme/mashini365_BlackFriday` in GitHub.
+3. Choose Add file > Upload files. Upload the extracted contents at the repository root, merging folders and replacing files with the same name. Do not upload the ZIP itself or put everything inside another enclosing folder.
+4. Include the `.github` folder. If your file picker hides it, enable hidden files or open `.github/workflows/nova-deploy.yml` separately and create that exact path through GitHub's Add file > Create new file.
+5. Commit to `main`. Every push to main deploys this separate storefront once the workflow is present.
+6. In Actions, open `Deploy to Nova` and wait for success. The workflow installs the lockfile dependencies, type-checks, builds, tests the built worker and uploads it to Nova.
 
-Copy these folders/files into the existing repository root, merging folders:
+The existing CloudCart connection supplies `NOVA_DEPLOY_URL` and `NOVA_DEPLOY_TOKEN` through repository variables/secrets. Their values are not included in this package. If the workflow reports missing authorization, verify the CloudCart connection; do not paste tokens into files or the HTML widget.
 
-- `public/mashini365/` — generated loader, standalone test page, and 37 local image/font assets.
-- `campaigns/mashini365/` — editable HTML, CSS, fonts, product snapshot, interaction source, asset manifest.
-- `scripts/build-mashini365.mjs` and `scripts/check-mashini365.mjs` — dependency-free Node build and checks.
-- `.github/workflows/mashini365-check.yml` — validation only; does not deploy.
-- `CLOUDCART-EMBED.txt` — snippet to paste into the CloudCart page after deployment.
-- This guide and `ACCEPTANCE-CHECKLIST.md`.
+CloudCart also created a pull request with its workflow. This package already contains that workflow with validation added. You do not need to merge a stale workflow PR over these files; avoid replacing this checked workflow with a second copy after uploading.
 
-The built JavaScript is committed, so the existing storefront build does not need a new dependency or build step to serve it. This assumes the storefront already publishes its `public/` folder, as the previous project did. Confirm that against the actual Mashini365 repository before deployment.
+## After Actions succeeds
 
-There are fewer than 100 files in this package. When using GitHub's browser uploader, verify the hidden `.github` folder is also uploaded if you want the optional validation workflow. Do not upload the ZIP itself into the repository; extract and upload the contents.
+Open:
+https://black-fridat-f75da9e11f95b942.cloudcart.dev/
 
-## Deploy and embed
+Also verify:
+https://black-fridat-f75da9e11f95b942.cloudcart.dev/mashini365/index.html
 
-1. Add these files to the repository connected to the intended storefront. Preserve its existing Nova workflow and credentials.
-2. Commit and wait for that storefront's deployment workflow to finish. The new `Check Mashini365 landing page` workflow only validates; a green check there does not publish anything.
-3. Open `https://YOUR-STOREFRONT.cloudcart.dev/mashini365/index.html` to confirm the page loads. If your host redirects directory URLs, use the full `index.html` path.
-4. In `CLOUDCART-EMBED.txt`, replace `YOUR-STOREFRONT.cloudcart.dev` with the exact deployed host. Do not use the old Kolichkite host unless you intentionally choose it as this campaign's host.
-5. In the Mashini365 CloudCart HTML/code widget, paste the entire snippet. For a full landing page with its own navigation/footer, use the builder's page settings to hide the store header/footer if desired.
-6. Save and publish the CloudCart page. Test its regular mashini365.bg URL outside the admin editor.
-7. Complete `ACCEPTANCE-CHECKLIST.md` before using the page for advertising.
+Then open `CLOUDCART-EMBED.txt` and paste its entire contents into the Mashini365 CloudCart HTML/code widget. Its exact storefront URL is already filled in. Save and publish that CloudCart page.
 
-The embed has full-width CSS targeted only at builder rows containing this widget. It follows the previous CloudCart wrapper structure. The actual Mashini365 page must be checked because its theme may have different wrappers or clipping styles. No global theme stylesheet is overwritten.
+This does not replace mashini365.bg's storefront theme. The custom page is embedded only where you paste the snippet. The standalone .cloudcart.dev page is marked noindex; configure the actual CloudCart landing-page title/description in CloudCart.
 
-## What is preserved
+The full-width snippet follows the builder wrapper structure used by the earlier project. Confirm width on the actual published Mashini365 page and hide CloudCart's default page header/footer through the builder if you want only the campaign's own navigation/footer.
 
-- Version 3 layout, Bulgarian copy, banner images, embedded fonts and product images.
-- 27 products and existing links to mashini365.bg product pages.
-- Category filters, sorting, responsive show-more, comparison of up to three products, selection quiz, quantity slider, mobile navigation, FAQ, closing section and footer.
-- Product links use the native CloudCart product/checkout flow. No direct cart mutations are added.
+## What works
 
-Images have been extracted and deduplicated into separate cacheable assets. The original 12.76 MB inline HTML is no longer sent as a single document. The loader is about 174 KB including the original fonts; images load individually. Fonts use unique names to avoid collisions with the host theme.
+The original Bulgarian design, local images/fonts, 27 products, filters, sorting, responsive show-more, comparison of up to three products, selection quiz, quantity calculator, mobile navigation, FAQ and footer are preserved.
 
-The campaign is mounted in an open Shadow DOM. Its selectors and interaction queries are scoped to that root. The loader uses a normal external script, avoiding cross-origin HTML fetches and module-CORS requirements. There is no iframe, eval, API token, or runtime request to GitHub. It still requires CloudCart to allow the external script and image origin under its content security policy.
+The embed uses an isolated Shadow DOM. Fonts have unique names. Product links go to mashini365.bg product pages, where native variants, cart and checkout handle the purchase. The hosting app itself has no cart, user session, product API token or live stock integration.
 
-If the script is blocked or fails to download, the widget retains its plain store link. Runtime initialization failures show a store link and retry button. Repeated script includes do not remount an initialized widget.
+## Prices and inventory
 
-## Price and stock behavior — important
+This is the supplied **21 October 2026 product snapshot**, not live pricing. The date notice is retained. Review prices, discounts, specifications and shipping/payment claims before publishing. The original promotional headline says up to 40% off although some supplied badges show larger discounts; review that campaign copy as well.
 
-**This package preserves the supplied static product snapshot. It does not synchronize live prices or stock.** The source page explicitly dates its prices to **21 October 2026**; that notice is retained.
+Live API pricing can be added separately. It is not required to deploy the current static campaign and no API keys are requested by this implementation.
 
-Update `campaigns/mashini365/products.json` and rebuild whenever product prices or offers change. Product links lead to the store where current prices and availability apply. Manually check promotional headlines, discounts, product specifications and shipping/payment claims before publication. For example, the supplied headline says "up to −40%" while some supplied product badges show larger discounts; this was preserved rather than silently rewriting the campaign.
+## Local development
 
-Sorting and calculator recommendations use the prices and nominal throughputs in this snapshot. They do not check inventory or operating duty cycles. The source's calculator explanation and limitations are preserved.
-
-For the live-data behavior used in the earlier Kolichkite project, provide the Mashini365 Nitrogen repository/export and storefront configuration. The product API integration, safe server-side token handling, and stale-data behavior must then be implemented for that store. Do not put a PAT or private API key in this package or in the HTML widget.
-
-## Editing and rebuilding
-
-Requires Node.js 22 or later; no npm install is needed for build/check.
+Node 22.12+ is required. Dependencies are locked in package-lock.json.
 
 ```sh
-node scripts/build-mashini365.mjs
-node scripts/check-mashini365.mjs
+npm ci
+npm run dev
 ```
 
-Commit both source edits and regenerated `public/mashini365/landing.js`.
+To validate and build:
 
-- `page.html`: campaign structure and static copy; contains `__M365_ASSET_BASE__` tokens resolved by the loader.
-- `page.css`: isolated styling; `:host` supplies the original root variables.
-- `products.json`: product snapshot; keep IDs stable because quiz recommendations refer to them.
-- `interactions.js`: source interactions scoped to `root`.
-- `fonts.css`: original embedded font data, renamed to M365Manrope/M365Oswald.
-- `assets.json`: extracted asset sizes, MIME types, and SHA-256 checksums.
+```sh
+npm run typecheck
+npm run build
+npm run test:build
+npm run preview
+```
 
-When changing existing images, also update references and checksums; content-hashed filenames allow old/new assets to coexist. Do not delete assets still referenced by a previously cached loader immediately after a release. Increment the `?v=1` suffix in the CloudCart snippet when you need to force a loader refresh, then publish the CloudCart page again.
+`app/` and `server.ts` provide a read-only React Router worker using the official Nitrogen Vite plugin and preset. `build/server/index.js` is the self-contained worker; `build/client/` contains the assets expected by Nova. The host platform serves the static assets. No application environment variables are required for this snapshot version.
 
-## Tracking
+## Updating the campaign
 
-The embed does not install another GTM, Google Analytics, Meta Pixel or consent banner. It runs within the CloudCart page. Existing page tracking can operate there, but page views, consent, product clicks and purchases still require verification. Shadow DOM can prevent generic click-selector triggers from matching inner links.
+Edit the files in `campaigns/mashini365/`, then run `npm run build`. Commit the source changes and the regenerated `public/mashini365/landing.js`. Keep product IDs stable because quiz recommendations reference them. Updating image files also requires updating their references and checksums in assets.json.
 
-The host emits `mashini365:ready` after initialization and `mashini365:link` with `{href}` when a campaign link is clicked. These are DOM events only: nothing is automatically pushed to dataLayer or sent to an analytics service. Map them to existing tracking only after checking your consent and event configuration.
+The workflow rebuilds the bundle before publishing. Increase the `?v=1` suffix in the CloudCart widget and republish the page when you need to force browsers to fetch an updated loader. Keep older hashed image assets while browsers might still have an older script cached.
 
-## Validation performed
+## Tracking and verification
 
-- Node syntax and deterministic build; all 27 product records and recommendation IDs checked.
-- 37 extracted assets checked against SHA-256 hashes; anchors and IDs checked.
-- Local DOM interaction tests passed: category filters, ascending prices, show-more, three-item comparison limit, comparison dialog/reset, all four quiz categories, quantity calculator, menu toggles and category selection, duplicate loading, and isolation from the outer document.
-- No deployment, authenticated CloudCart changes, real-browser visual acceptance, live price/stock verification, checkout test or analytics delivery test has been performed for Mashini365.
+No new analytics pixels or GTM containers are installed. Existing CloudCart page tracking needs to be verified with consent enabled. Shadow DOM click matching may require explicit instrumentation. The embed emits `mashini365:ready` and `mashini365:link` DOM events, but these are not automatically sent to dataLayer or an analytics provider.
 
-## Still needed for a fully connected deployment
+Local production build and worker tests are run before packaging. Deployment, public desktop/mobile rendering, checkout and analytics delivery still require checks in your actual storefront; see ACCEPTANCE-CHECKLIST.md.
 
-Supply the intended storefront's current GitHub repository ZIP and its `.cloudcart.dev` URL. Those identify the correct deploy workflow/target and let the final embed URL be filled in. This package intentionally does not guess a Nova storefront ID or deployment API.
+No changes have been pushed to GitHub by the assistant. Uploading this package to main is the step that starts the first deployment.

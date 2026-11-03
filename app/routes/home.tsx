@@ -1,0 +1,2 @@
+export function meta(){return [{title:'Mashini365 — Домашният вкус'},{name:'description',content:'Месомелачки, бъркалки, пълначки и консумативи за обработка на месо от Mashini365.'}];}
+export default function Home(){return <><div data-m365-landing=""><p>Разгледайте предложенията в <a href="https://mashini365.bg/">Mashini365 →</a></p></div><noscript>Включете JavaScript за интерактивната селекция или отворете магазина.</noscript><script src="/mashini365/landing.js?v=1" defer/></>;}

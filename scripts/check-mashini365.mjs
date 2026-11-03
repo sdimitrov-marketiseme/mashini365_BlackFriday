@@ -29,5 +29,5 @@ assert(!/<script\b/i.test(html),'HTML fragments must not contain executable scri
 const app=await read(src+'interactions.js');assert(!app.includes('document.querySelector'));assert(!app.includes('document.body'));
 const bundle=await read('public/mashini365/landing.js');new vm.Script(bundle);
 assert(!/kolichki|kolichkite|nova_storefront_id/i.test(bundle),'Wrong store configuration');
-assert((await read('CLOUDCART-EMBED.txt')).includes('YOUR-STOREFRONT.cloudcart.dev'));
+assert((await read('CLOUDCART-EMBED.txt')).includes('black-fridat-f75da9e11f95b942.cloudcart.dev'));
 console.log('PASS: 27 products; recommendation targets; native store URLs; sale prices; '+Object.keys(manifest).length+' asset checksums; unique IDs; anchors; isolated DOM queries; generated JavaScript syntax.');

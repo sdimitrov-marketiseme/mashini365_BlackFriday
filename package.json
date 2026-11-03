@@ -1,0 +1,28 @@
+{
+  "name": "mashini365-black-friday",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22.12.0"},
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "node scripts/build-mashini365.mjs && node scripts/check-mashini365.mjs && react-router build",
+    "preview": "vite preview",
+    "check": "node scripts/check-mashini365.mjs",
+    "typecheck": "react-router typegen && tsc --noEmit",
+    "test:build": "node scripts/test-production.mjs"
+  },
+  "dependencies": {
+    "@cloudcart/nitrogen": "2.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.16.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.16.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.0.0"
+  }
+}
