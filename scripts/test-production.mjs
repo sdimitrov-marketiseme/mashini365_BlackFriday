@@ -16,3 +16,4 @@ assert(original.equals(deployed),'Published JS must match generated campaign');
 const manifest=JSON.parse(await fs.readFile(path.join(root,'campaigns/mashini365/assets.json'),'utf8'));
 for(const name of Object.keys(manifest)){assert((await fs.stat(path.join(root,'build/client/mashini365/assets',name))).size>0);}
 console.log('PASS: production worker renders the landing shell; correct script URL; noindex; no session cookies; rejects writes; all 37 assets included.');
+process.exit(0);
