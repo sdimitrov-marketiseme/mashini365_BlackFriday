@@ -17,7 +17,7 @@ function fail(host,error){
  const container=host.shadowRoot||host;
  container.replaceChildren();
  const p=document.createElement('p');p.textContent='Не успяхме да заредим страницата. ';
- const a=document.createElement('a');a.href='https://mashini365.bg/';a.textContent='Разгледайте магазина →';p.append(a);
+ const a=document.createElement('a');a.href='https://mashini365.bg/';a.textContent='Разгледайте магазина';p.append(a);
  const button=document.createElement('button');button.type='button';button.textContent='Опитайте отново';button.onclick=()=>mount(host);
  container.append(p,button);console.error('Mashini365 landing:',error);
 }

@@ -818,3 +818,8 @@ p {line-height:1.65}
 .v3 .campaign.yellow .campaign-product{position:absolute;width:100%;height:auto;right:0;bottom:0;transform:none;opacity:1;object-fit:contain;object-position:center bottom;max-width:none;display:block;mix-blend-mode:normal}
 
 .m365-page{width:100%;isolation:isolate}.m365-page [id]{scroll-margin-top:110px}
+
+/* SVG icons avoid iOS emoji glyph substitution. */
+.m365-icon{display:inline-block;width:1em;height:1em;min-width:1em;flex-shrink:0;vertical-align:-.12em;pointer-events:none}
+.circle-arrow .m365-icon,.menu-arrow .m365-icon{display:block}
+.btn>span:has(>.m365-icon){display:inline-flex;align-items:center}
