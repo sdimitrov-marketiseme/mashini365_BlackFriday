@@ -1,0 +1,13 @@
+<!-- Replace YOUR-STOREFRONT.cloudcart.dev with the actual Mashini365 storefront host. -->
+<style>
+body.page-page main._content ._grid-row:has([data-m365-layout="full-width"]){margin:0!important;padding:0!important}
+body.page-page main._content .container:has([data-m365-layout="full-width"]){width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+body.page-page main._content .row:has([data-m365-layout="full-width"]){margin:0!important}
+body.page-page main._content .col-md-12:has([data-m365-layout="full-width"]),
+body.page-page main._content ._grid-section:has([data-m365-layout="full-width"]){width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+[data-m365-landing]{display:block;width:100%;max-width:none;margin:0;padding:0}
+</style>
+<div data-m365-landing data-m365-layout="full-width">
+  <p>Разгледайте предложенията в <a href="https://mashini365.bg/">Mashini365 →</a></p>
+</div>
+<script src="https://YOUR-STOREFRONT.cloudcart.dev/mashini365/landing.js?v=1" defer></script>
